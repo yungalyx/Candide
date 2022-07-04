@@ -1,6 +1,7 @@
 import { EthereumTransactionData as BlocknativeEthereumTransactionData }
     from 'bnc-sdk/dist/types/src/interfaces';
 
+
 type TransferDetails = {
     counterparty: string
     amount: string
@@ -24,6 +25,7 @@ type EthereumNetBalanceChanges = {
     balanceChanges: EthereumAssetBalanceChanges[]
 }
 
+// @ts-expect-error
 export type EthereumTransactionData = BlocknativeEthereumTransactionData & {
     netBalanceChanges?: EthereumNetBalanceChanges[]
 };

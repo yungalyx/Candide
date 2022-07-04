@@ -19,6 +19,7 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
+        'linebreak-style': 0,
         'react/jsx-uses-react': 'off',
         'react/react-in-jsx-scope': 'off',
         'no-use-before-define': 'off',

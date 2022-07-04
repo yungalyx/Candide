@@ -6,6 +6,8 @@ import {
     decryptWallet,
 } from '../wallet';
 
+import { getBalancesV2 } from '../../../lib/zapper/index'
+
 describe('import valid mnemonic', () => {
     const mnemonic = 'there night cash clap pottery cereal silly silent hybrid hour visual hurry';
     const expectedAddress = '0x41f99409865FB23b833C1cD40C1c03BDd3E2C575';
@@ -87,3 +89,8 @@ describe('decrypt wallet', () => {
         }
     });
 });
+
+
+describe('get zapper balance v2', () => {
+
+})

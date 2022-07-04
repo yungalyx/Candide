@@ -10,6 +10,7 @@ import {
     getEthereumNetwork,
     removeHttp,
 } from '../../../lib/helpers';
+import { getBalancesV2 } from '../../../lib/zapper';
 import {
     Alert,
     Image,
@@ -87,6 +88,11 @@ const Wallet = (): React.ReactElement => {
     const error = useWalletError();
 
     const connectedSession = useAppSelector((state) => state.wallet.connectedSession);
+
+    useEffect(() => {
+        getBalancesV2()
+        
+    });
 
     return (
         <>

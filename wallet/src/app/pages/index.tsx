@@ -62,7 +62,7 @@ export const Routes = () => {
                 <Layout>
                     <ReactRoutes>
                         <Route path="/" element={!walletInstance ? <Welcome /> : <Wallet />} />
-                        <Route path="import_wallet" element={<ImportWallet />} />
+                        <Route path="/import_wallet" element={<ImportWallet />} />
                         <Route path="/send/:assetSymbol" element={<Send />} />
                         <Route path="/wallet" element={<Wallet />} />
                         <Route path="/wallet/:assetSymbol" element={<AssetView />} />
