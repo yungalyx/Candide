@@ -1,12 +1,16 @@
 /* eslint-disable max-len */
 import axios from 'axios';
-
+import { AppendBalance } from '../../app/store/balances/action';
+import { useAppDispatch } from '../../app/store';
 import { HexString } from '../accounts';
+import { AnyAssetAmount } from '../assets';
 import { getEthereumNetwork } from '../helpers';
+
 import {
     ZapperResponse,
     ZapperAccountAddress,
 } from './types';
+import { useDispatch } from 'react-redux';
 
 const ZAPPER_PUBLIC_API_KEY = '96e0cc51-a62e-42ca-acee-910ea7d2a241';
 const ZAPPER_PUBLIC_API_URL = 'https://api.zapper.fi/v1/';
@@ -16,6 +20,7 @@ const inst = axios.create({
     baseURL: ZAPPER_PUBLIC_API_URL,
     timeout: 5000,
 });
+
 
 /**
  * Get balances for a given address and network using zapper public API
@@ -55,21 +60,30 @@ export async function getBalances(accountAddress: HexString, chainId: number): P
  * @param network
  * @returns {Promise<{ contractAddress: string; amount: number }[]>} TokenBalance for the given addresse
  */
-export async function getBalancesV2(address, network) {
+export async function getBalancesV2(address: String, network: number) {
 
     const evtSource = new EventSource(ZAPPER_PUBLIC_API_URL_V2 + `balances?networks[]=ethereum&addresses[]=0xf2DAf90Dd0Cf2EB5e095775630F0F6F3f8A2b463&useNewBalancesFormat=true&bundled=false&api_key=5f977ae3-8998-47f6-aa45-eefacd7f9f6e`, )
 
     evtSource.addEventListener('balance', function(e) {
-        console.log(JSON.parse(e.data))
+
+        const res = JSON.parse(e.data)
+        console.log(res)
+        
+        const obj: AnyAssetAmount = {
+            asset:  {
+                decimals: 0,
+                symbol: 'smt',
+                name: 'smt',
+                address: 'smt'
+            },
+            amount: res.totals[0], 
+        }
+
+        useAppDispatch(AppendBalance(obj))
+        
     })
 
     evtSource.addEventListener('end', function(e) {
         evtSource.close()
     })
-
-    // const response = await instV2.get(`balances?addresses[]=0xf2DAf90Dd0Cf2EB5e095775630F0F6F3f8A2b463&networks[]=ethereum&bundled=true&api_key=5f977ae3-8998-47f6-aa45-eefacd7f9f6e`);
-    // const stream = await response.data;
-    //console.log(stream)
-
-  
 }

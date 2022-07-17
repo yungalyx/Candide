@@ -10,7 +10,6 @@ import {
     getEthereumNetwork,
     removeHttp,
 } from '../../../lib/helpers';
-import { getBalancesV2 } from '../../../lib/zapper';
 import {
     Alert,
     Image,
@@ -89,10 +88,11 @@ const Wallet = (): React.ReactElement => {
 
     const connectedSession = useAppSelector((state) => state.wallet.connectedSession);
 
-    useEffect(() => {
-        getBalancesV2()
-        
-    });
+    // useEffect(() => {
+    //     console.log(address);
+    //     console.log(walletChainId);
+    //     getBalancesV2(address, walletChainId);
+    // }, []);
 
     return (
         <>

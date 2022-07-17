@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { getBalancesV2 } from '../../../../lib/zapper';
 
 import { ListGroup } from '../../../components';
 import {
@@ -12,23 +13,28 @@ import AssetItem from './AssetItem';
 const AssetsList = (): React.ReactElement => {
     const dispatch = useAppDispatch();
     const provider = useWalletProvider();
-    const address = useAppSelector((state) => state.wallet.walletInstance?.address);
+    const address = useAppSelector((state) => state.wallet.walletInstance?.address || '');
+    const walletChainId = useAppSelector((state) => state.wallet.walletChainId);
+    // useEffect(() => {
+    //     if (provider && address) {
+    //         dispatch(getAssets({ alchemyProvider: provider, address }));
+    //     }
+    // }, [provider, address]);
 
     useEffect(() => {
-        if (provider && address) {
-            dispatch(getAssets({ alchemyProvider: provider, address }));
-        }
-    }, [provider, address]);
+        getBalancesV2(address, walletChainId)
+    }, [provider, address])
 
-    const assetsList = useAppSelector((state) => state.assets.assets);
-
+    //const assetsList = useAppSelector((state) => state.assets.assets);
+    const balances = useAppSelector((state) => state.balances.assets);
+ 
     return (
         <ListGroup>
-            {assetsList.map((assetAmount) => (
+            {balances.map((assetAmount) => (
                 <AssetItem
                     key={assetAmount.asset.symbol}
                     assetItem={assetAmount} />
-            ))}
+            ))} 
         </ListGroup>
     );
 };
